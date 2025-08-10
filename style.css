@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Helvetica Neue", sans-serif;
+    background: white;
+    color: black;
+    overflow-x: hidden;
+}
+
+section {
+    padding: 100px 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+h1,
+h2 {
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-subtitle {
+    margin-top: 20px;
+    color: #555;
+}
+
+/* SERVICES */
+.service-list {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.service-card {
+    flex: 1;
+    min-width: 200px;
+    padding: 40px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* PROJECTS */
+.project-item {
+    margin-bottom: 60px;
+}
+
+.project-item p {
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* ABOUT */
+.about-text {
+    max-width: 800px;
+}
+
+/* CONTACT */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+}
+
+input,
+textarea,
+button {
+    padding: 15px;
+    border: 1px solid black;
+    background: white;
+    font-size: 1rem;
+}
+
+button {
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+button:hover {
+    background: black;
+    color: white;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+    color: #555;
+}
