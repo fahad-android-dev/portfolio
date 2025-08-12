@@ -210,69 +210,106 @@ splitHero.chars.forEach((ch) => {
   if (!reduceMotion) window.addEventListener('mousemove', onMove);
 })();
 
-// Intro overlay: white welcome screen drops away to reveal the site
+// Combined intro overlay with loading counter then welcome
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intro = document.querySelector('.intro');
+
   if (!intro) return;
-  const panel = intro.querySelector('.intro-panel');
-  const text = intro.querySelector('.intro-text');
-  const scrambler = new TextScrambler(text);
+
+  const introPanel = intro.querySelector('.intro-panel');
+  const loadingCounter = intro.querySelector('.loading-counter');
+  const introText = intro.querySelector('.intro-text');
+
+  const introScrambler = new TextScrambler(introText);
 
   if (reduceMotion) {
     gsap.set(intro, { autoAlpha: 0, display: 'none' });
     return;
   }
 
-  gsap.set([panel, text], { willChange: 'transform, opacity' });
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  tl.set(text, { autoAlpha: 1, y: 0 });
-  const phrases = ['Welcome'];
-  phrases.forEach((p) => {
-    tl.to(text, {
-      duration: 0.9,
-      onStart: () => scrambler.setText(p, { duration: 0.9, fromBlank: true })
-    });
-  });
-  tl.to(text, { autoAlpha: 0, y: -20, duration: 0.5 }, '+=0.05')
-    .to(panel, { yPercent: -100, duration: 0.8, ease: 'power4.inOut' }, '<')
+  // Set up initial states
+  gsap.set([introPanel, loadingCounter, introText], { willChange: 'transform, opacity' });
+  gsap.set(loadingCounter, { autoAlpha: 0 });
+  gsap.set(introText, { autoAlpha: 0 });
+
+  const masterTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  // Phase 1: Show counter with simple count-up animation
+  masterTl.set(loadingCounter, { autoAlpha: 1 })
+    .add(() => {
+      // Simple counter animation from 0 to 99, then seamless transition to Welcome
+      let currentCount = 0;
+      const counterInterval = setInterval(() => {
+        currentCount += Math.random() > 0.7 ? 2 : 1; // Irregular increment for realism
+        if (currentCount >= 99) {
+          currentCount = 99;
+          loadingCounter.textContent = currentCount.toString();
+          clearInterval(counterInterval);
+
+          // Seamless transition: start scramble animation immediately
+          setTimeout(() => {
+            // Hide counter and show welcome text in same position
+            gsap.set(loadingCounter, { autoAlpha: 0 });
+            gsap.set(introText, { autoAlpha: 1, y: 0 });
+
+            // Start scramble animation for Welcome
+            introScrambler.setText('Welcome', { duration: 0.9, fromBlank: true });
+
+            // Continue timeline after scramble completes + 1 second pause
+            setTimeout(() => {
+              masterTl.play();
+            }, 1900); // 900ms scramble + 1000ms pause = 1900ms total
+          }, 200);
+        } else {
+          // Simple text update without scramble effect
+          loadingCounter.textContent = currentCount.toString();
+        }
+      }, 50); // Update every 50ms for smooth animation
+
+      // Pause timeline until counter finishes
+      masterTl.pause();
+    })
+
+    // Phase 2: Lift intro page immediately (Welcome scramble is handled above)
+    .to(introPanel, { yPercent: -100, duration: 0.8, ease: 'power4.inOut' })
     .set(intro, { display: 'none' })
     .add(() => {
-      try { if (typeof tlHero !== 'undefined' && tlHero) tlHero.restart(); } catch (e) {}
+      try { if (typeof tlHero !== 'undefined' && tlHero) tlHero.restart(); } catch (e) { }
     }, '<');
 })();
 
 // Services fade-up
 gsap.from(".service-card", {
-    scrollTrigger: { trigger: ".services", start: "top 80%" },
-    y: 50, opacity: 0, duration: 0.8, stagger: 0.2
+  scrollTrigger: { trigger: ".services", start: "top 80%" },
+  y: 50, opacity: 0, duration: 0.8, stagger: 0.2
 });
 
 // Projects parallax reveal
 document.querySelectorAll(".project-item img").forEach(img => {
-    gsap.from(img, {
-        scrollTrigger: { trigger: img, start: "top 85%" },
-        scale: 1.1,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out"
-    });
+  gsap.from(img, {
+    scrollTrigger: { trigger: img, start: "top 85%" },
+    scale: 1.1,
+    opacity: 0,
+    duration: 1.2,
+    ease: "power3.out"
+  });
 });
 
 // About section fade
 gsap.from(".about-text h2, .about-text p", {
-    scrollTrigger: { trigger: ".about", start: "top 80%" },
-    y: 30, opacity: 0, duration: 0.6, stagger: 0.2
+  scrollTrigger: { trigger: ".about", start: "top 80%" },
+  y: 30, opacity: 0, duration: 0.6, stagger: 0.2
 });
 
 // Contact form fields stagger
 gsap.from(".contact input, .contact textarea, .contact button", {
-    scrollTrigger: { trigger: ".contact", start: "top 80%" },
-    y: 20, opacity: 0, duration: 0.5, stagger: 0.15
+  scrollTrigger: { trigger: ".contact", start: "top 80%" },
+  y: 20, opacity: 0, duration: 0.5, stagger: 0.15
 });
 
 // Footer fade
 gsap.from("footer", {
-    scrollTrigger: { trigger: "footer", start: "top 90%" },
-    opacity: 0, duration: 0.8
+  scrollTrigger: { trigger: "footer", start: "top 90%" },
+  opacity: 0, duration: 0.8
 });
