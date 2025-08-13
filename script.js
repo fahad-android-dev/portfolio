@@ -210,7 +210,7 @@ splitHero.chars.forEach((ch) => {
   if (!reduceMotion) window.addEventListener('mousemove', onMove);
 })();
 
-// Combined intro overlay with loading counter then welcome
+// Intro overlay with welcome text scramble animation
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const intro = document.querySelector('.intro');
@@ -218,7 +218,6 @@ splitHero.chars.forEach((ch) => {
   if (!intro) return;
 
   const introPanel = intro.querySelector('.intro-panel');
-  const loadingCounter = intro.querySelector('.loading-counter');
   const introText = intro.querySelector('.intro-text');
 
   const introScrambler = new TextScrambler(introText);
@@ -229,49 +228,26 @@ splitHero.chars.forEach((ch) => {
   }
 
   // Set up initial states
-  gsap.set([introPanel, loadingCounter, introText], { willChange: 'transform, opacity' });
-  gsap.set(loadingCounter, { autoAlpha: 0 });
-  gsap.set(introText, { autoAlpha: 0 });
+  gsap.set([introPanel, introText], { willChange: 'transform, opacity' });
+  gsap.set(introText, { autoAlpha: 1 });
 
   const masterTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-  // Phase 1: Show counter with simple count-up animation
-  masterTl.set(loadingCounter, { autoAlpha: 1 })
-    .add(() => {
-      // Simple counter animation from 0 to 99, then seamless transition to Welcome
-      let currentCount = 0;
-      const counterInterval = setInterval(() => {
-        currentCount += Math.random() > 0.7 ? 2 : 1; // Irregular increment for realism
-        if (currentCount >= 99) {
-          currentCount = 99;
-          loadingCounter.textContent = currentCount.toString();
-          clearInterval(counterInterval);
+  // Start scramble animation immediately
+  masterTl.add(() => {
+    // Start scramble animation for Welcome
+    introScrambler.setText('Welcome', { duration: 1.2, fromBlank: true });
 
-          // Seamless transition: start scramble animation immediately
-          setTimeout(() => {
-            // Hide counter and show welcome text in same position
-            gsap.set(loadingCounter, { autoAlpha: 0 });
-            gsap.set(introText, { autoAlpha: 1, y: 0 });
+    // Continue timeline after scramble completes + 1 second pause
+    setTimeout(() => {
+      masterTl.play();
+    }, 2200); // 1200ms scramble + 1000ms pause = 2200ms total
 
-            // Start scramble animation for Welcome
-            introScrambler.setText('Welcome', { duration: 0.9, fromBlank: true });
+    // Pause timeline until scramble finishes
+    masterTl.pause();
+  })
 
-            // Continue timeline after scramble completes + 1 second pause
-            setTimeout(() => {
-              masterTl.play();
-            }, 1900); // 900ms scramble + 1000ms pause = 1900ms total
-          }, 200);
-        } else {
-          // Simple text update without scramble effect
-          loadingCounter.textContent = currentCount.toString();
-        }
-      }, 50); // Update every 50ms for smooth animation
-
-      // Pause timeline until counter finishes
-      masterTl.pause();
-    })
-
-    // Phase 2: Lift intro page immediately (Welcome scramble is handled above)
+    // Lift intro page after welcome animation
     .to(introPanel, { yPercent: -100, duration: 0.8, ease: 'power4.inOut' })
     .set(intro, { display: 'none' })
     .add(() => {

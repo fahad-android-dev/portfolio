@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap');
+
 .site-bg {
     position: fixed;
     inset: 0;
@@ -69,7 +71,7 @@
     top: 40px;
     left: 40px;
     color: #ffffff;
-    font-family: "Helvetica Neue", sans-serif;
+    font-family: "Playfair Display", "Crimson Text", "Times New Roman", serif;
     z-index: 10001;
 }
 
@@ -93,14 +95,6 @@
     letter-spacing: 0.15em;
 }
 
-.loading-counter {
-    font-size: clamp(32px, 8vw, 80px);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    font-family: "Helvetica Neue", sans-serif;
-    opacity: 0;
-}
 
 .intro-text {
     position: absolute;
@@ -133,7 +127,7 @@
 }
 
 body {
-    font-family: "Helvetica Neue", sans-serif;
+    font-family: "Playfair Display", "Crimson Text", "Times New Roman", serif;
     background: #ffffff;
     color: #111111;
     overflow-x: hidden;
@@ -240,8 +234,9 @@ img {
 }
 
 .hero-title {
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-family: "Libre Baskerville", "Playfair Display", serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     font-size: clamp(2.8rem, 7vw, 6rem);
     line-height: 1.05;
 }
