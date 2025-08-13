@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Crimson+Text:wght@400;600&family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
 .site-bg {
     position: fixed;
@@ -95,7 +95,6 @@
     letter-spacing: 0.15em;
 }
 
-
 .intro-text {
     position: absolute;
     top: 50%;
@@ -177,28 +176,86 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
     position: relative;
-}
-
-.hero-bg {
-    position: absolute;
-    inset: 0;
+    padding: 80px 20px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #ffffff;
     overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.hero-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
 }
 
 .hero-inner {
     position: relative;
     z-index: 1;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.hero-name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    color: #222;
+    opacity: 0.9;
+}
+
+.hero-title {
+    font-size: 8vw;
+    font-weight: 900;
+    line-height: 0.9;
+    margin: 0 0 2rem;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    color: #000;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hero-title span {
+    display: block;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.hero-title span:first-child {
+    margin-bottom: 0.5rem;
+}
+
+.hero-extra {
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #555;
+    line-height: 2;
+    margin-top: 2.5rem;
+}
+
+.hero-extra p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 12vw;
+    }
+    
+    .hero-name {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-extra {
+        font-size: 0.9rem;
+    }
 }
 
 .blob {
