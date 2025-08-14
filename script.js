@@ -61,16 +61,16 @@ gsap.set(splitHero.chars, { display: 'inline-block', willChange: 'transform' });
 const tlHero = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
 tlHero
-  .from('.eyebrow', { opacity: 0, y: 16, duration: 0.5 })
+  .from(['.header', '.nav-item'], { y: -20, opacity: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1 })
+  .from('.eyebrow', { opacity: 0, y: 16, duration: 0.5 }, '<')
   .from(splitHero.lines, {
-    yPercent: 120,
+    yPercent: 100,
     opacity: 0,
-    skewY: 6,
     duration: 0.9,
     stagger: 0.08,
+    ease: 'power2.out',
     clearProps: 'all'
-  }, '-=0.1')
-  .to(splitHero.lines, { skewY: 0, duration: 0.4, ease: 'power3.out' }, '<+0.05')
+  }, '<')
   .from('.hero-subtitle', { opacity: 0, y: 18, duration: 0.6 }, '-=0.2')
   .from('.hero-tags span', { opacity: 0, y: 12, duration: 0.35, stagger: 0.07 }, '-=0.25');
 
