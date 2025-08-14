@@ -125,6 +125,11 @@
     box-sizing: border-box;
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     font-family: "Playfair Display", "Crimson Text", "Times New Roman", serif;
     background: #ffffff;
@@ -179,33 +184,44 @@ img {
     align-items: center;
     text-align: center;
     position: relative;
-    padding: 80px 20px;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #ffffff;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .hero-inner {
     position: relative;
     z-index: 1;
-    max-width: 1200px;
     width: 100%;
+    height: 100vh;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .hero-name {
-    font-size: 1rem;
+    font-size: 3vw;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     margin-bottom: 2.5rem;
     color: #222;
     opacity: 0.9;
+    width: 100%;
+    text-align: center;
 }
 
 .hero-title {
-    font-size: 8vw;
+    font-size: 15vw;
     font-weight: 900;
     line-height: 0.9;
     margin: 0 0 2rem;
@@ -215,6 +231,8 @@ img {
     text-shadow: 0 2px 4px rgba(0,0,0,0.05);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    text-align: center;
 }
 
 .hero-title span {
@@ -228,13 +246,15 @@ img {
 }
 
 .hero-extra {
-    font-size: 1rem;
+    font-size: 3vw;
     font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #555;
     line-height: 2;
     margin-top: 2.5rem;
+    width: 100%;
+    text-align: center;
 }
 
 .hero-extra p {
@@ -245,16 +265,16 @@ img {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 12vw;
+        font-size: 20vw;
     }
     
     .hero-name {
-        font-size: 0.9rem;
+        font-size: 7vw;
         margin-bottom: 2rem;
     }
     
     .hero-extra {
-        font-size: 0.9rem;
+        font-size: 5vw;
     }
 }
 
@@ -276,11 +296,7 @@ img {
     background: radial-gradient(circle at 70% 70%, rgba(80, 80, 80, 0.65), rgba(80, 80, 80, 0) 60%);
 }
 
-.hero-inner {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-}
+/* This hero-inner style is overridden by the previous one */
 
 .eyebrow {
     font-size: 0.9rem;
@@ -290,13 +306,7 @@ img {
     margin-bottom: 18px;
 }
 
-.hero-title {
-    font-family: "Libre Baskerville", "Playfair Display", serif;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    font-size: clamp(2.8rem, 7vw, 6rem);
-    line-height: 1.05;
-}
+/* This hero-title style is overridden by the previous one */
 
 .hero-subtitle {
     margin-top: 20px;
