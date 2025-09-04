@@ -53,28 +53,41 @@ class TextScrambler {
   }
 }
 
-// Hero entrance sequence (line-based reveal)
-const splitHero = new SplitType('.hero-title', { types: 'lines, words, chars' });
+// Hero entrance sequence with staggered text reveals
+const splitHero = new SplitType('.hero-main-title', { types: 'lines, words, chars' });
 gsap.set(splitHero.words, { display: 'inline-block' });
 gsap.set(splitHero.chars, { display: 'inline-block', willChange: 'transform' });
 
 const tlHero = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
 tlHero
-  .from(['.header', '.nav-item'], { y: -20, opacity: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1 })
-  .from('.eyebrow', { opacity: 0, y: 16, duration: 0.5 }, '<')
+  .from(['.brand', '.nav-item'], { y: -30, opacity: 0, duration: 1.0, ease: 'power2.out', stagger: 0.08 })
+  .from('.hero-header', { y: 30, opacity: 0, duration: 1, ease: 'power2.out' }, '-=0.8')
+  .from('.hero-name', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
+  .from('.hero-title', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
+  .from('.hero-location', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
   .from(splitHero.lines, {
     yPercent: 100,
     opacity: 0,
-    duration: 0.9,
-    stagger: 0.08,
+    duration: 1.2,
+    stagger: 0.15,
     ease: 'power2.out',
     clearProps: 'all'
-  }, '<')
-  .from('.hero-subtitle', { opacity: 0, y: 18, duration: 0.6 }, '-=0.2')
-  .from('.hero-tags span', { opacity: 0, y: 12, duration: 0.35, stagger: 0.07 }, '-=0.25');
+  }, '-=0.2')
+  .from('.hero-image', { 
+    x: 100, 
+    opacity: 0, 
+    duration: 1.5, 
+    ease: 'power3.out' 
+  }, '-=0.8')
+  .from('.hero-extra', { 
+    y: 30, 
+    opacity: 0, 
+    duration: 0.8, 
+    ease: 'power2.out' 
+  }, '-=0.4');
 
-// Per-letter hover interaction
+// Per-letter hover interaction for main title
 splitHero.chars.forEach((ch) => {
   ch.addEventListener('mouseenter', () => {
     gsap.to(ch, {
@@ -100,7 +113,7 @@ splitHero.chars.forEach((ch) => {
 
 // Proximity-based mouse tracking over hero title
 (() => {
-  const container = document.querySelector('.hero-title');
+  const container = document.querySelector('.hero-main-title');
   if (!container) return;
 
   let mouse = { x: 0, y: 0, inside: false };
@@ -158,7 +171,7 @@ splitHero.chars.forEach((ch) => {
   requestAnimationFrame(loop);
 })();
 
-// Lightweight DOM blob background using GSAP (mouse-reactive, light theme)
+// Lightweight DOM blob background using GSAP (mouse-reactive, dark theme)
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const blobs = gsap.utils.toArray('.bg-blob');
@@ -181,7 +194,7 @@ splitHero.chars.forEach((ch) => {
       x: view.w / 2 + ox,
       y: view.h / 2 + oy,
       scale: gsap.utils.random(0.9, 1.15),
-      opacity: 0.5
+      opacity: 0.1
     });
     if (!reduceMotion) {
       // Gentle idle float and rotation
@@ -255,10 +268,43 @@ splitHero.chars.forEach((ch) => {
     }, '<');
 })();
 
-// Services fade-up
-gsap.from(".service-card", {
-  scrollTrigger: { trigger: ".services", start: "top 80%" },
-  y: 50, opacity: 0, duration: 0.8, stagger: 0.2
+// Hero chips subtle float-in
+gsap.from(".hero-tags span", {
+  scrollTrigger: { trigger: ".hero", start: "top 60%" },
+  y: 14,
+  opacity: 0,
+  duration: 0.6,
+  stagger: 0.12,
+  ease: "power2.out"
+});
+
+// Work cards reveal and parallax hover
+const workCards = gsap.utils.toArray('.work-card');
+workCards.forEach((card) => {
+  // reveal on scroll
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: 'top 85%' },
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power2.out'
+  });
+
+  // mouse spotlight and tilt
+  const media = card.querySelector('.work-media img');
+  card.addEventListener('mousemove', (e) => {
+    const r = card.getBoundingClientRect();
+    const mx = ((e.clientX - r.left) / r.width) * 100;
+    const my = ((e.clientY - r.top) / r.height) * 100;
+    card.style.setProperty('--mx', mx + '%');
+    card.style.setProperty('--my', my + '%');
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top + r.height / 2);
+    gsap.to(media, { duration: 0.4, ease: 'power2.out', x: dx * 0.03, y: dy * 0.03 });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(media, { duration: 0.5, ease: 'power3.out', x: 0, y: 0 });
+  });
 });
 
 // Projects parallax reveal
@@ -269,7 +315,7 @@ document.querySelectorAll(".project-item img").forEach(img => {
     opacity: 0,
     duration: 1.2,
     ease: "power3.out"
-  });
+  }); 
 });
 
 // About section fade
@@ -289,3 +335,57 @@ gsap.from("footer", {
   scrollTrigger: { trigger: "footer", start: "top 90%" },
   opacity: 0, duration: 0.8
 });
+
+// Work list hover preview (GSAP)
+(() => {
+  const list = document.querySelector('.work-list');
+  const rows = gsap.utils.toArray('.work-row');
+  const preview = document.querySelector('.work-preview');
+  const previewImg = preview ? preview.querySelector('img') : null;
+  if (!list || !rows.length || !preview || !previewImg) return;
+
+  // entrance
+  gsap.from(rows, {
+    scrollTrigger: { trigger: list, start: 'top 80%' },
+    y: 30, opacity: 0, duration: 0.7, stagger: 0.08, ease: 'power2.out'
+  });
+
+  const qx = gsap.quickTo(preview, 'left', { duration: 0.25, ease: 'expo.out' });
+  const qy = gsap.quickTo(preview, 'top', { duration: 0.25, ease: 'expo.out' });
+  const qscale = gsap.quickTo(preview, 'scale', { duration: 0.25, ease: 'expo.out' });
+  const qopacity = gsap.quickTo(preview, 'opacity', { duration: 0.25, ease: 'expo.out' });
+
+  function move(e) {
+    qx(e.clientX + 24);
+    qy(e.clientY - 24);
+  }
+
+  function activateRow(row) {
+    rows.forEach(r => r.classList.remove('is-active'));
+    row.classList.add('is-active');
+    const src = row.getAttribute('data-image');
+    if (src && previewImg.getAttribute('src') !== src) {
+      gsap.to(previewImg, { opacity: 0, duration: 0.15, onComplete: () => {
+        previewImg.setAttribute('src', src);
+        gsap.to(previewImg, { opacity: 1, duration: 0.25 });
+      }});
+    }
+  }
+
+  rows.forEach((row) => {
+    row.addEventListener('mouseenter', (e) => {
+      activateRow(row);
+      document.addEventListener('mousemove', move);
+      qopacity(1);
+      qscale(1);
+      move(e);
+    });
+    row.addEventListener('mousemove', move);
+    row.addEventListener('mouseleave', () => {
+      qopacity(0);
+      qscale(0.92);
+      document.removeEventListener('mousemove', move);
+      rows.forEach(r => r.classList.remove('is-active'));
+    });
+  });
+})();

@@ -4,19 +4,20 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
     <title>Fahad — Developer</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=3" />
 </head>
 
 <body>
     <!-- HEADER -->
     <header class="header">
+        <div class="brand">Fahad Yasin</div>
         <nav class="nav">
-            <a href="#" class="nav-item">Home</a>
+            <a href="#" class="nav-item">Work</a>
             <a href="#" class="nav-item">About</a>
-            <a href="#" class="nav-item">Services</a>
-            <a href="#" class="nav-item">Projects</a>
             <a href="#" class="nav-item">Contact</a>
+            <a href="#" class="nav-item">Blog</a>
         </nav>
     </header>
 
@@ -26,7 +27,7 @@
         <div class="intro-content">
             <div class="intro-info">
                 <div class="intro-name">FAHAD</div>
-                <div class="intro-title">WEB & APP DEVELOPER</div>
+                <div class="intro-title">APP DEVELOPER</div>
                 <div class="intro-year">PORTFOLIO ©2025</div>
             </div>
             <div class="intro-text">Welcome</div>
@@ -43,12 +44,21 @@
     <!-- HERO -->
     <section class="hero">
         <div class="hero-inner">
-            <div class="hero-name">Fahad Yasin</div>
-            <h1 class="hero-title">
+            <h1 class="hero-main-title">
+                <span>Creative</span>
                 <span>Developer</span>
-            </h1>
+            </h1>s  
+            
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" alt="Fahad Yasin">
+            </div>
+            
             <div class="hero-extra">
-                <p>Node.js Backend Developer</p>
+                <div class="hero-tags" aria-label="Capabilities">
+                    <span>Web Development</span>
+                    <span>UI/UX Design</span>
+                    <span>Animations</span>
+                </div>
             </div>
         </div>
         <div class="scroll-cue" aria-hidden="true">
@@ -57,26 +67,34 @@
         </div>
     </section>
 
-    <!-- SERVICES -->
-    <section class="services">
-        <h2>What I Do</h2>
-        <div class="service-list">
-            <div class="service-card">Web Development</div>
-            <div class="service-card">UI/UX Design</div>
-            <div class="service-card">Animations</div>
+    <!-- WORK -->
+    <section class="work" id="work">
+        <div class="work-head">
+            <div class="eyebrow">My Work</div>
         </div>
-    </section>
 
-    <!-- PROJECTS -->
-    <section class="projects">
-        <h2>Selected Work</h2>
-        <div class="project-item">
-            <img src="https://via.placeholder.com/800x500" alt="">
-            <p>Modern Portfolio Website</p>
+        <div class="work-list" role="list">
+            <a class="work-row" role="listitem" href="#" data-image="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop">
+                <div class="work-row__title">M31 Controller</div>
+                <div class="work-row__meta">Prototyping</div>
+            </a>
+            <a class="work-row" role="listitem" href="#" data-image="https://images.unsplash.com/photo-1556767576-cfba17486c21?q=80&w=1600&auto=format&fit=crop">
+                <div class="work-row__title">AXO</div>
+                <div class="work-row__meta">Bio Materials</div>
+            </a>
+            <a class="work-row" role="listitem" href="#" data-image="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600&auto=format&fit=crop">
+                <div class="work-row__title">StyleSync</div>
+                <div class="work-row__meta">ML / AI</div>
+            </a>
+            <a class="work-row" role="listitem" href="#" data-image="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1600&auto=format&fit=crop">
+                <div class="work-row__title">Portfolio Engine</div>
+                <div class="work-row__meta">Next.js</div>
+            </a>
         </div>
-        <div class="project-item">
-            <img src="https://via.placeholder.com/800x500" alt="">
-            <p>Mobile App Dashboard</p>
+
+        <!-- Floating preview image (controlled by JS) -->
+        <div class="work-preview" aria-hidden="true">
+            <img alt="Work preview" />
         </div>
     </section>
 
@@ -91,11 +109,20 @@
 
     <!-- CONTACT -->
     <section class="contact">
-        <h2>Let's Collaborate</h2>
+        <div class="contact-intro">
+            <h2>Let's Collaborate</h2>
+            <p>Have an idea or a project in mind? Tell me about it. I reply within 24 hours.</p>
+            <div class="hero-tags" aria-label="Preferred areas">
+                <span>Web Apps</span>
+                <span>APIs</span>
+                <span>Dashboards</span>
+                <span>Animations</span>
+            </div>
+        </div>
         <form>
             <input type="text" placeholder="Your Name" />
             <input type="email" placeholder="Your Email" />
-            <textarea placeholder="Your Message"></textarea>
+            <textarea placeholder="Your Message" rows="6"></textarea>
             <button type="submit">Send</button>
         </form>
     </section>
