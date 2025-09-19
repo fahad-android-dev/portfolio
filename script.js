@@ -61,31 +61,33 @@ gsap.set(splitHero.chars, { display: 'inline-block', willChange: 'transform' });
 const tlHero = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
 tlHero
-  .from(['.brand', '.nav-item'], { y: -30, opacity: 0, duration: 1.0, ease: 'power2.out', stagger: 0.08 })
+  .from(['.brand', '.nav-item'], { y: -30, opacity: 0, duration: 0.8, ease: 'power2.out', stagger: 0.08 })
+  // Make the main hero title appear at the same time as the menu
+  .from(splitHero.lines, {
+    yPercent: 100,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.05,
+    ease: 'power2.out',
+    clearProps: 'all'
+  }, '<')
   .from('.hero-header', { y: 30, opacity: 0, duration: 1, ease: 'power2.out' }, '-=0.8')
   .from('.hero-name', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
   .from('.hero-title', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
   .from('.hero-location', { y: 20, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
-  .from(splitHero.lines, {
-    yPercent: 100,
-    opacity: 0,
-    duration: 1.2,
-    stagger: 0.15,
-    ease: 'power2.out',
-    clearProps: 'all'
-  }, '-=0.2')
+  // Image and hero extras should also appear immediately
   .from('.hero-image', { 
-    x: 100, 
+    x: 60, 
     opacity: 0, 
-    duration: 1.5, 
+    duration: 0.9, 
     ease: 'power3.out' 
-  }, '-=0.8')
+  }, '<')
   .from('.hero-extra', { 
-    y: 30, 
+    y: 20, 
     opacity: 0, 
-    duration: 0.8, 
+    duration: 0.6, 
     ease: 'power2.out' 
-  }, '-=0.4');
+  }, '<');
 
 // Per-letter hover interaction for main title
 splitHero.chars.forEach((ch) => {
@@ -318,11 +320,57 @@ document.querySelectorAll(".project-item img").forEach(img => {
   }); 
 });
 
-// About section fade
-gsap.from(".about-text h2, .about-text p", {
-  scrollTrigger: { trigger: ".about", start: "top 80%" },
-  y: 30, opacity: 0, duration: 0.6, stagger: 0.2
-});
+// About section enhanced reveal and counters
+(() => {
+  const about = document.querySelector('.about');
+  if (!about) return;
+
+  // Headline and paragraph
+  gsap.from(".about-text h2, .about-text p", {
+    scrollTrigger: { trigger: ".about", start: "top 80%" },
+    y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: 'power2.out'
+  });
+
+  // Columns and photo
+  gsap.from([".about-content", ".about-photo"], {
+    scrollTrigger: { trigger: ".about", start: "top 78%" },
+    y: 24, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out'
+  });
+
+  // Highlights list
+  gsap.from(".about-highlights li", {
+    scrollTrigger: { trigger: ".about", start: "top 72%" },
+    y: 16, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out'
+  });
+
+  // About tags
+  gsap.from(".about .hero-tags span", {
+    scrollTrigger: { trigger: ".about", start: "top 70%" },
+    y: 14, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out'
+  });
+
+  // Stat number counters
+  const nums = gsap.utils.toArray('.about .about-stats .num');
+  if (nums.length) {
+    nums.forEach((el) => {
+      const target = Number(el.getAttribute('data-target') || '0');
+      const obj = { val: 0 };
+      ScrollTrigger.create({
+        trigger: about,
+        start: 'top 70%',
+        once: true,
+        onEnter: () => {
+          gsap.to(obj, {
+            val: target,
+            duration: 1.2,
+            ease: 'power2.out',
+            onUpdate: () => { el.textContent = Math.round(obj.val).toString(); }
+          });
+        }
+      });
+    });
+  }
+})();
 
 // Contact form fields stagger
 gsap.from(".contact input, .contact textarea, .contact button", {

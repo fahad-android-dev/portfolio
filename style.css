@@ -557,8 +557,19 @@ img {
 }
 
 /* ABOUT */
-.about-text {
-    max-width: 800px;
+.about-inner { max-width: 1400px; margin: 0 auto; }
+.about-text { max-width: 800px; margin-bottom: 28px; }
+.about-content { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
+.about-highlights { list-style: none; display: grid; gap: 10px; margin: 16px 0 18px; }
+.about-highlights li { color: #cfcfcf; background: #202020; border: 1px solid #2a2a2a; padding: 10px 14px; border-radius: 10px; }
+.about-stats { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.about-stats .stat { display: grid; gap: 6px; padding: 12px 14px; background: #191919; border: 1px solid #2a2a2a; border-radius: 12px; min-width: 150px; }
+.about-stats .num { font-size: 28px; font-weight: 800; color: #ffffff; }
+.about-stats .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: #9f9f9f; }
+.about-photo { display: none; }
+
+@media (max-width: 900px) {
+    .about-content { grid-template-columns: 1fr; }
 }
 
 /* CONTACT */
